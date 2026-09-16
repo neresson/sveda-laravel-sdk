@@ -1,0 +1,46 @@
+{
+    "name": "veda-ai/laravel-client",
+    "description": "Laravel SDK for Veda AI — HTTP client, embed sessions, and automatic host MCP server.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "veda", "ai", "copilot", "mcp", "sdk"],
+    "require": {
+        "php": "^8.4",
+        "illuminate/contracts": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "laravel/mcp": "^0.8.2",
+        "laravel/sanctum": "^4.0",
+        "veda-ai/client": "dev-main"
+    },
+    "require-dev": {
+        "laravel/framework": "^12.0 || ^13.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Veda\\LaravelClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Veda\\LaravelClient\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Veda\\LaravelClient\\VedaClientServiceProvider"
+            ],
+            "aliases": {
+                "VedaClient": "Veda\\LaravelClient\\Facades\\VedaClient"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
