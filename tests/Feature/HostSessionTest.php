@@ -1,19 +1,19 @@
 <?php
 
-namespace Veda\LaravelClient\Tests\Feature;
+namespace Sveda\LaravelClient\Tests\Feature;
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
-use Veda\LaravelClient\Facades\VedaClient;
-use Veda\LaravelClient\Http\Controllers\StartSidecarSessionController;
-use Veda\LaravelClient\Tests\Fixtures\EchoHostTool;
-use Veda\LaravelClient\Tests\TestCase;
+use Sveda\LaravelClient\Facades\SvedaClient;
+use Sveda\LaravelClient\Http\Controllers\StartSidecarSessionController;
+use Sveda\LaravelClient\Tests\Fixtures\EchoHostTool;
+use Sveda\LaravelClient\Tests\TestCase;
 
 final class HostSessionTest extends TestCase
 {
     protected function defineRoutes($router): void
     {
-        $router->post('/veda/session', StartSidecarSessionController::class)
+        $router->post('/sveda/session', StartSidecarSessionController::class)
             ->middleware('auth:sanctum');
     }
 
@@ -21,28 +21,28 @@ final class HostSessionTest extends TestCase
     {
         Http::preventStrayRequests();
         Http::fake([
-            'http://127.0.0.1:8787/veda/embed/token' => Http::response([
-                'token' => 'veda_embed_test.token',
+            'http://127.0.0.1:8787/sveda/embed/token' => Http::response([
+                'token' => 'sveda_embed_test.token',
                 'visitor_id' => 'host-1',
                 'expires_in' => 3600,
             ]),
         ]);
 
-        VedaClient::host()->resolveToolsUsing(fn () => [new EchoHostTool]);
+        SvedaClient::host()->resolveToolsUsing(fn () => [new EchoHostTool]);
 
         $user = $this->createUser();
         $token = $user->createToken('web')->plainTextToken;
 
-        $response = $this->withToken($token)->postJson('/veda/session');
+        $response = $this->withToken($token)->postJson('/sveda/session');
 
         $response
             ->assertOk()
             ->assertJsonPath('origin', 'http://127.0.0.1:8787')
-            ->assertJsonPath('token', 'veda_embed_test.token')
+            ->assertJsonPath('token', 'sveda_embed_test.token')
             ->assertJsonPath('expires_in', 3600);
 
         Http::assertSent(function (Request $request) use ($user): bool {
-            return $request->url() === 'http://127.0.0.1:8787/veda/embed/token'
+            return $request->url() === 'http://127.0.0.1:8787/sveda/embed/token'
                 && $request->hasHeader('Authorization', 'Bearer host-secret')
                 && $request['visitor_id'] === 'host-'.$user->id
                 && is_string($request['host_mcp_url'])
@@ -50,6 +50,6 @@ final class HostSessionTest extends TestCase
                 && $request['host_mcp_token'] !== '';
         });
 
-        $this->assertTrue($user->tokens()->where('name', 'veda-mcp')->exists());
+        $this->assertTrue($user->tokens()->where('name', 'sveda-mcp')->exists());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Veda\LaravelClient\Http\Middleware;
+namespace Sveda\LaravelClient\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 use Symfony\Component\HttpFoundation\Response;
-use Veda\LaravelClient\Host\HostManager;
+use Sveda\LaravelClient\Host\HostManager;
 
 class AuthenticateHostMcp
 {
-    public const PAGE_CONTEXT_HEADER = 'X-Veda-Page-Context';
+    public const PAGE_CONTEXT_HEADER = 'X-Sveda-Page-Context';
 
-    public const CHAT_ID_HEADER = 'X-Veda-Chat-Id';
+    public const CHAT_ID_HEADER = 'X-Sveda-Chat-Id';
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -32,7 +32,7 @@ class AuthenticateHostMcp
             abort(401);
         }
 
-        $ability = (string) config('veda-client.mcp.ability', 'veda:mcp');
+        $ability = (string) config('sveda-client.mcp.ability', 'sveda:mcp');
         if (! $accessToken->can($ability)) {
             abort(401);
         }

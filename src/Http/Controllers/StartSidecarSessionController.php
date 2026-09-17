@@ -1,11 +1,11 @@
 <?php
 
-namespace Veda\LaravelClient\Http\Controllers;
+namespace Sveda\LaravelClient\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Veda\LaravelClient\Host\HostManager;
+use Sveda\LaravelClient\Host\HostManager;
 
 class StartSidecarSessionController
 {

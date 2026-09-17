@@ -1,10 +1,10 @@
 {
-    "name": "veda-ai/laravel-client",
-    "description": "Laravel SDK for Veda AI: HTTP client, embed sessions, and automatic host MCP server.",
+    "name": "sveda-ai/laravel-sdk",
+    "description": "Laravel SDK for Sveda AI: HTTP client, embed sessions, and automatic host MCP server.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "veda", "ai", "copilot", "mcp", "sdk"],
-    "homepage": "https://github.com/neresson/veda-laravel-client",
+    "keywords": ["laravel", "sveda", "ai", "copilot", "mcp", "sdk"],
+    "homepage": "https://github.com/neresson/sveda-laravel-sdk",
     "authors": [
         {
             "name": "Neresson",
@@ -13,9 +13,15 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/neresson/veda-laravel-client/issues",
-        "source": "https://github.com/neresson/veda-laravel-client"
+        "issues": "https://github.com/neresson/sveda-laravel-sdk/issues",
+        "source": "https://github.com/neresson/sveda-laravel-sdk"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../sveda-php-sdk"
+        }
+    ],
     "require": {
         "php": "^8.4",
         "illuminate/contracts": "^12.0 || ^13.0",
@@ -23,7 +29,7 @@
         "illuminate/support": "^12.0 || ^13.0",
         "laravel/mcp": "^0.8.2",
         "laravel/sanctum": "^4.0",
-        "veda-ai/client": "^0.1 || dev-main"
+        "sveda-ai/php-sdk": "^0.1 || dev-main"
     },
     "require-dev": {
         "laravel/framework": "^12.0 || ^13.0",
@@ -32,21 +38,21 @@
     },
     "autoload": {
         "psr-4": {
-            "Veda\\LaravelClient\\": "src/"
+            "Sveda\\LaravelClient\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Veda\\LaravelClient\\Tests\\": "tests/"
+            "Sveda\\LaravelClient\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Veda\\LaravelClient\\VedaClientServiceProvider"
+                "Sveda\\LaravelClient\\SvedaClientServiceProvider"
             ],
             "aliases": {
-                "VedaClient": "Veda\\LaravelClient\\Facades\\VedaClient"
+                "SvedaClient": "Sveda\\LaravelClient\\Facades\\SvedaClient"
             }
         }
     },

@@ -1,12 +1,12 @@
 <?php
 
-namespace Veda\LaravelClient\Mcp;
+namespace Sveda\LaravelClient\Mcp;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
-use Veda\LaravelClient\Contracts\HostTool;
+use Sveda\LaravelClient\Contracts\HostTool;
 
 class HostMcpTool extends Tool
 {

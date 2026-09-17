@@ -1,10 +1,10 @@
 <?php
 
-namespace Veda\LaravelClient\Tests\Feature;
+namespace Sveda\LaravelClient\Tests\Feature;
 
-use Veda\LaravelClient\Facades\VedaClient;
-use Veda\LaravelClient\Tests\Fixtures\EchoHostTool;
-use Veda\LaravelClient\Tests\TestCase;
+use Sveda\LaravelClient\Facades\SvedaClient;
+use Sveda\LaravelClient\Tests\Fixtures\EchoHostTool;
+use Sveda\LaravelClient\Tests\TestCase;
 
 final class HostMcpServerTest extends TestCase
 {
@@ -12,7 +12,7 @@ final class HostMcpServerTest extends TestCase
     {
         parent::setUp();
 
-        VedaClient::host()->resolveToolsUsing(fn () => [new EchoHostTool]);
+        SvedaClient::host()->resolveToolsUsing(fn () => [new EchoHostTool]);
     }
 
     public function test_unauthenticated_mcp_request_is_rejected(): void
@@ -23,7 +23,7 @@ final class HostMcpServerTest extends TestCase
     public function test_authenticated_user_can_list_and_call_tools(): void
     {
         $user = $this->createUser();
-        $token = $user->createToken('veda-mcp', ['veda:mcp'], now()->addHour())->plainTextToken;
+        $token = $user->createToken('sveda-mcp', ['sveda:mcp'], now()->addHour())->plainTextToken;
 
         $list = $this->mcpJson($token, 'tools/list', ['per_page' => 250]);
         $list->assertOk();
@@ -60,7 +60,7 @@ final class HostMcpServerTest extends TestCase
             $headers['Authorization'] = 'Bearer '.$token;
         }
 
-        return $this->postJson('/mcp/veda', [
+        return $this->postJson('/mcp/sveda', [
             'jsonrpc' => '2.0',
             'id' => $id,
             'method' => $method,

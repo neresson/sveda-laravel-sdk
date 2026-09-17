@@ -1,12 +1,12 @@
 <?php
 
-namespace Veda\LaravelClient\Mcp;
+namespace Sveda\LaravelClient\Mcp;
 
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Attributes\Instructions;
 use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Attributes\Version;
-use Veda\LaravelClient\Host\HostManager;
+use Sveda\LaravelClient\Host\HostManager;
 
 #[Name('Host Application')]
 #[Version('0.1.0')]

@@ -1,11 +1,11 @@
 <?php
 
-namespace Veda\LaravelClient;
+namespace Sveda\LaravelClient;
 
-use Veda\Client\Client;
-use Veda\LaravelClient\Host\HostManager;
+use Sveda\Client\Client;
+use Sveda\LaravelClient\Host\HostManager;
 
-class VedaClientManager
+class SvedaClientManager
 {
     public function __construct(
         protected HostManager $host,

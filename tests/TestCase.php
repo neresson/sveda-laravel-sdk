@@ -1,14 +1,14 @@
 <?php
 
-namespace Veda\LaravelClient\Tests;
+namespace Sveda\LaravelClient\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Mcp\Server\McpServiceProvider;
 use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Veda\LaravelClient\Tests\Fixtures\TestUser;
-use Veda\LaravelClient\VedaClientServiceProvider;
+use Sveda\LaravelClient\Tests\Fixtures\TestUser;
+use Sveda\LaravelClient\SvedaClientServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -17,7 +17,7 @@ abstract class TestCase extends Orchestra
         return [
             SanctumServiceProvider::class,
             McpServiceProvider::class,
-            VedaClientServiceProvider::class,
+            SvedaClientServiceProvider::class,
         ];
     }
 
@@ -26,10 +26,10 @@ abstract class TestCase extends Orchestra
         $app['config']->set('database.default', 'testing');
         $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
         $app['config']->set('auth.providers.users.model', TestUser::class);
-        $app['config']->set('veda-client.base_url', 'http://127.0.0.1:8787');
-        $app['config']->set('veda-client.host_api_key', 'host-secret');
-        $app['config']->set('veda-client.mcp.path', '/mcp/veda');
-        $app['config']->set('veda-client.mcp.token_ttl_seconds', 3600);
+        $app['config']->set('sveda-client.base_url', 'http://127.0.0.1:8787');
+        $app['config']->set('sveda-client.host_api_key', 'host-secret');
+        $app['config']->set('sveda-client.mcp.path', '/mcp/sveda');
+        $app['config']->set('sveda-client.mcp.token_ttl_seconds', 3600);
     }
 
     protected function defineDatabaseMigrations(): void

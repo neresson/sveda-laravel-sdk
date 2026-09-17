@@ -1,6 +1,6 @@
 <?php
 
-namespace Veda\LaravelClient\Tests\Fixtures;
+namespace Sveda\LaravelClient\Tests\Fixtures;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;

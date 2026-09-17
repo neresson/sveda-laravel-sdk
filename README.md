@@ -1,32 +1,34 @@
-# veda-ai/laravel-client
+# sveda-laravel-sdk
 
-Laravel SDK for integrating your application with [Veda AI](https://github.com/neresson/veda) without writing your own MCP server.
+Laravel SDK for integrating your application with [Sveda AI](https://github.com/neresson/sveda) without writing your own MCP server.
+
+Packagist: `sveda-ai/laravel-sdk`
 
 ## Install
 
 ```bash
-composer require veda-ai/laravel-client
+composer require sveda-ai/laravel-sdk
 ```
 
-`veda-ai/client` is pulled in transitively.
+`sveda-ai/php-sdk` is pulled in transitively.
 
 ## Host integration
 
 ```php
-use Veda\LaravelClient\Facades\VedaClient;
+use Sveda\LaravelClient\Facades\SvedaClient;
 
-VedaClient::host()->resolveToolsUsing(fn () => [
+SvedaClient::host()->resolveToolsUsing(fn () => [
     new SearchOrdersTool,
 ]);
 
-VedaClient::host()->authorizeUsing(function ($user) {
+SvedaClient::host()->authorizeUsing(function ($user) {
     return $user->is_active && $user->can('use-ai');
 });
 
-$session = VedaClient::host()->startSession($user);
+$session = SvedaClient::host()->startSession($user);
 ```
 
-The package automatically registers `/mcp/veda` (configurable) and mints Sanctum tokens for the sidecar.
+The package automatically registers `/mcp/sveda` (configurable) and mints Sanctum tokens for the sidecar.
 
 ## License
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Veda\LaravelClient\Contracts;
+namespace Sveda\LaravelClient\Contracts;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 

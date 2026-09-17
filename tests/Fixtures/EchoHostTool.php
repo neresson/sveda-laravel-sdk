@@ -1,9 +1,9 @@
 <?php
 
-namespace Veda\LaravelClient\Tests\Fixtures;
+namespace Sveda\LaravelClient\Tests\Fixtures;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
-use Veda\LaravelClient\Contracts\HostTool;
+use Sveda\LaravelClient\Contracts\HostTool;
 
 final class EchoHostTool implements HostTool
 {

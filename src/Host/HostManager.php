@@ -1,14 +1,14 @@
 <?php
 
-namespace Veda\LaravelClient\Host;
+namespace Sveda\LaravelClient\Host;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Veda\Client\Client;
-use Veda\Client\Exceptions\AuthenticationException;
-use Veda\Client\Exceptions\ErrorException;
-use Veda\Client\Exceptions\TransporterException;
-use Veda\Client\Factory;
-use Veda\LaravelClient\Contracts\HostTool;
+use Sveda\Client\Client;
+use Sveda\Client\Exceptions\AuthenticationException;
+use Sveda\Client\Exceptions\ErrorException;
+use Sveda\Client\Exceptions\TransporterException;
+use Sveda\Client\Factory;
+use Sveda\LaravelClient\Contracts\HostTool;
 
 class HostManager
 {
@@ -91,7 +91,7 @@ class HostManager
             return (string) ($this->visitorIdUsing)($user);
         }
 
-        $prefix = trim((string) config('veda-client.session.visitor_prefix', 'host'));
+        $prefix = trim((string) config('sveda-client.session.visitor_prefix', 'host'));
 
         return $prefix.'-'.$user->getAuthIdentifier();
     }
@@ -114,12 +114,12 @@ class HostManager
             }
         }
 
-        $configured = trim((string) config('veda-client.mcp.url', ''));
+        $configured = trim((string) config('sveda-client.mcp.url', ''));
         if ($configured !== '') {
             return rtrim($configured, '/');
         }
 
-        return url((string) config('veda-client.mcp.path', '/mcp/veda'));
+        return url((string) config('sveda-client.mcp.path', '/mcp/sveda'));
     }
 
     public function isConfigured(): bool
@@ -176,27 +176,27 @@ class HostManager
     {
         $factory = Factory::factory()
             ->withBaseUri($this->baseUrl())
-            ->withTimeout((int) config('veda-client.timeout', 30))
-            ->withConnectTimeout((int) config('veda-client.connect_timeout', 5));
+            ->withTimeout((int) config('sveda-client.timeout', 30))
+            ->withConnectTimeout((int) config('sveda-client.connect_timeout', 5));
 
         if ($host) {
             $factory->withHostApiKey($this->hostApiKey());
         }
 
         return $factory
-            ->withTransporter(new \Veda\LaravelClient\Transporters\HttpTransporter(
+            ->withTransporter(new \Sveda\LaravelClient\Transporters\HttpTransporter(
                 baseUri: $this->baseUrl(),
                 defaultHeaders: $host ? ['Authorization' => 'Bearer '.$this->hostApiKey()] : [],
-                timeout: (int) config('veda-client.timeout', 30),
-                connectTimeout: (int) config('veda-client.connect_timeout', 5),
+                timeout: (int) config('sveda-client.timeout', 30),
+                connectTimeout: (int) config('sveda-client.connect_timeout', 5),
             ))
             ->make();
     }
 
     protected function defaultMintMcpToken(Authenticatable $user): string
     {
-        $tokenName = (string) config('veda-client.mcp.token_name', 'veda-mcp');
-        $ability = (string) config('veda-client.mcp.ability', 'veda:mcp');
+        $tokenName = (string) config('sveda-client.mcp.token_name', 'sveda-mcp');
+        $ability = (string) config('sveda-client.mcp.ability', 'sveda:mcp');
         $ttl = $this->tokenTtlSeconds();
 
         if (method_exists($user, 'tokens')) {
@@ -216,7 +216,7 @@ class HostManager
             return rtrim((string) config('lms.ai.sidecar.url'), '/');
         }
 
-        return rtrim((string) config('veda-client.base_url', ''), '/');
+        return rtrim((string) config('sveda-client.base_url', ''), '/');
     }
 
     protected function hostApiKey(): string
@@ -225,7 +225,7 @@ class HostManager
             return trim((string) config('lms.ai.sidecar.host_api_key'));
         }
 
-        return trim((string) config('veda-client.host_api_key', ''));
+        return trim((string) config('sveda-client.host_api_key', ''));
     }
 
     protected function tokenTtlSeconds(): int
@@ -234,6 +234,6 @@ class HostManager
             return max(60, (int) config('lms.ai.sidecar.token_ttl_seconds'));
         }
 
-        return max(60, (int) config('veda-client.mcp.token_ttl_seconds', 3600));
+        return max(60, (int) config('sveda-client.mcp.token_ttl_seconds', 3600));
     }
 }
