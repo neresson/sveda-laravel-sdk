@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["laravel", "sveda", "ai", "copilot", "mcp", "sdk"],
-    "homepage": "https://github.com/neresson/sveda-laravel-sdk",
+    "homepage": "https://sveda.dev/docs/hosts/laravel",
     "authors": [
         {
             "name": "Neresson",
@@ -13,6 +13,7 @@
         }
     ],
     "support": {
+        "docs": "https://sveda.dev/docs/hosts/laravel",
         "issues": "https://github.com/neresson/sveda-laravel-sdk/issues",
         "source": "https://github.com/neresson/sveda-laravel-sdk"
     },

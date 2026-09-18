@@ -1,6 +1,8 @@
 # sveda-laravel-sdk
 
-Laravel SDK for integrating your application with [Sveda AI](https://github.com/neresson/sveda) without writing your own MCP server.
+Laravel SDK for integrating your application with [Sveda](https://sveda.dev) without writing your own MCP server.
+
+Docs: [sveda.dev/docs/hosts/laravel](https://sveda.dev/docs/hosts/laravel)
 
 Packagist: `sveda-ai/laravel-sdk`
 
