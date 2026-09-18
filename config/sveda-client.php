@@ -11,6 +11,7 @@ return [
         'url' => env('SVEDA_CLIENT_MCP_URL', ''),
         'server_name' => env('SVEDA_CLIENT_MCP_SERVER_NAME', 'Host Application'),
         'server_version' => env('SVEDA_CLIENT_MCP_SERVER_VERSION', '0.1.0'),
+        'instructions' => env('SVEDA_CLIENT_MCP_INSTRUCTIONS', ''),
         'token_name' => env('SVEDA_CLIENT_MCP_TOKEN_NAME', 'sveda-mcp'),
         'ability' => env('SVEDA_CLIENT_MCP_ABILITY', 'sveda:mcp'),
         'token_ttl_seconds' => (int) env('SVEDA_CLIENT_MCP_TOKEN_TTL', 3600),
@@ -18,6 +19,10 @@ return [
     ],
 
     'session' => [
+        'enabled' => env('SVEDA_CLIENT_SESSION_ENABLED', true),
+        'path' => env('SVEDA_CLIENT_SESSION_PATH', '/sveda/session'),
+        'name' => env('SVEDA_CLIENT_SESSION_NAME', 'sveda.session'),
+        'middleware' => ['web', 'auth'],
         'visitor_prefix' => env('SVEDA_CLIENT_VISITOR_PREFIX', 'host'),
     ],
 ];

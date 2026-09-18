@@ -6,6 +6,12 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 
 interface HostTool
 {
+    public const MODE_READ = 'read';
+
+    public const MODE_WRITE = 'write';
+
+    public const MODE_DELETE = 'delete';
+
     public function name(): string;
 
     public function description(): string;

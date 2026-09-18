@@ -5,18 +5,11 @@ namespace Sveda\LaravelClient\Tests\Feature;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Sveda\LaravelClient\Facades\SvedaClient;
-use Sveda\LaravelClient\Http\Controllers\StartSidecarSessionController;
 use Sveda\LaravelClient\Tests\Fixtures\EchoHostTool;
 use Sveda\LaravelClient\Tests\TestCase;
 
 final class HostSessionTest extends TestCase
 {
-    protected function defineRoutes($router): void
-    {
-        $router->post('/sveda/session', StartSidecarSessionController::class)
-            ->middleware('auth:sanctum');
-    }
-
     public function test_it_mints_embed_token_from_sidecar(): void
     {
         Http::preventStrayRequests();
@@ -31,9 +24,8 @@ final class HostSessionTest extends TestCase
         SvedaClient::host()->resolveToolsUsing(fn () => [new EchoHostTool]);
 
         $user = $this->createUser();
-        $token = $user->createToken('web')->plainTextToken;
 
-        $response = $this->withToken($token)->postJson('/sveda/session');
+        $response = $this->actingAs($user)->postJson('/sveda/session');
 
         $response
             ->assertOk()

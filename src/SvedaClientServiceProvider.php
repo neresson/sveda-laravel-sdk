@@ -3,10 +3,12 @@
 namespace Sveda\LaravelClient;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Mcp\Facades\Mcp;
 use Sveda\LaravelClient\View\Components\Chat;
 use Sveda\LaravelClient\Host\HostManager;
+use Sveda\LaravelClient\Http\Controllers\StartSidecarSessionController;
 use Sveda\LaravelClient\Http\Middleware\AuthenticateHostMcp;
 use Sveda\LaravelClient\Mcp\HostMcpServer;
 
@@ -34,7 +36,22 @@ class SvedaClientServiceProvider extends ServiceProvider
             ], 'sveda-client-config');
         }
 
+        $this->registerSessionRoute();
         $this->registerMcpServer();
+    }
+
+    protected function registerSessionRoute(): void
+    {
+        if (! config('sveda-client.session.enabled', true)) {
+            return;
+        }
+
+        Route::post(
+            (string) config('sveda-client.session.path', '/sveda/session'),
+            StartSidecarSessionController::class,
+        )
+            ->middleware(config('sveda-client.session.middleware', ['web', 'auth']))
+            ->name((string) config('sveda-client.session.name', 'sveda.session'));
     }
 
     protected function registerMcpServer(): void

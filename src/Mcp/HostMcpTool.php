@@ -23,14 +23,17 @@ class HostMcpTool extends Tool
 
     public function annotations(): array
     {
-        if ($this->hostTool->mode() === 'read') {
-            return ['readOnlyHint' => true];
-        }
-
-        return [
-            'readOnlyHint' => false,
-            'destructiveHint' => true,
-        ];
+        return match ($this->hostTool->mode()) {
+            HostTool::MODE_READ => ['readOnlyHint' => true],
+            HostTool::MODE_DELETE => [
+                'readOnlyHint' => false,
+                'destructiveHint' => true,
+            ],
+            default => [
+                'readOnlyHint' => false,
+                'destructiveHint' => false,
+            ],
+        };
     }
 
     public function schema(JsonSchema $schema): array

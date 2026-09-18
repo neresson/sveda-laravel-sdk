@@ -20,6 +20,25 @@ final class HostMcpServerTest extends TestCase
         $this->mcpJson(null, 'tools/list')->assertUnauthorized();
     }
 
+    public function test_initialize_reports_configured_name_and_instructions(): void
+    {
+        config()->set('sveda-client.mcp.server_name', 'Playground Feed');
+        config()->set('sveda-client.mcp.instructions', 'Feed tools for the current user.');
+
+        $user = $this->createUser();
+        $token = $user->createToken('sveda-mcp', ['sveda:mcp'], now()->addHour())->plainTextToken;
+
+        $response = $this->mcpJson($token, 'initialize', [
+            'protocolVersion' => '2025-11-25',
+            'capabilities' => [],
+            'clientInfo' => ['name' => 'sveda-test', 'version' => '0.1.0'],
+        ]);
+
+        $response->assertOk();
+        $this->assertSame('Playground Feed', $response->json('result.serverInfo.name'));
+        $this->assertSame('Feed tools for the current user.', $response->json('result.instructions'));
+    }
+
     public function test_authenticated_user_can_list_and_call_tools(): void
     {
         $user = $this->createUser();
