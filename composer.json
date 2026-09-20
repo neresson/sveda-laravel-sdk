@@ -1,9 +1,9 @@
 {
     "name": "sveda-ai/laravel-sdk",
-    "description": "Laravel SDK for Sveda AI: HTTP client, embed sessions, and automatic host MCP server.",
+    "description": "Embed a Sveda AI agent in Laravel (sessions + host MCP). https://sveda.dev/docs/hosts/laravel",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "sveda", "ai", "copilot", "mcp", "sdk"],
+    "keywords": ["laravel", "sveda", "ai", "agent", "copilot", "mcp", "sdk"],
     "homepage": "https://sveda.dev/docs/hosts/laravel",
     "authors": [
         {
