@@ -2,7 +2,7 @@
     "name": "sveda-ai/laravel-sdk",
     "description": "Embed a Sveda AI agent in Laravel (sessions + host MCP). https://sveda.dev/docs/hosts/laravel",
     "type": "library",
-    "license": "MIT",
+    "license": "AGPL-3.0-only",
     "keywords": ["laravel", "sveda", "ai", "agent", "copilot", "mcp", "sdk"],
     "homepage": "https://sveda.dev/docs/hosts/laravel",
     "authors": [
@@ -30,7 +30,7 @@
         "illuminate/support": "^12.0 || ^13.0",
         "laravel/mcp": "^0.8.2",
         "laravel/sanctum": "^4.0",
-        "sveda-ai/php-sdk": "^0.1 || dev-main"
+        "sveda-ai/php-sdk": "^0.2 || dev-main"
     },
     "require-dev": {
         "laravel/framework": "^12.0 || ^13.0",

@@ -163,4 +163,4 @@ The component posts to `route('sveda.session')` and renders the iframe. Override
 
 ## License
 
-MIT
+GNU Affero General Public License v3.0. See [LICENSE](LICENSE).
