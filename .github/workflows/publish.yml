@@ -1,0 +1,33 @@
+name: Packagist
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  packagist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Packagist
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -n "${PACKAGIST_USERNAME}" ] && [ -n "${PACKAGIST_TOKEN}" ]; then
+            curl -fsSL -X POST \
+              -H 'Content-Type: application/json' \
+              "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_TOKEN}" \
+              -d '{"repository":{"url":"https://github.com/neresson/sveda-laravel-sdk"}}'
+            exit 0
+          fi
+          echo "PACKAGIST_USERNAME/PACKAGIST_TOKEN unset; asking Packagist to crawl the GitHub repo."
+          curl -fsSL -X POST \
+            -H 'Content-Type: application/json' \
+            'https://packagist.org/api/update-package' \
+            -d '{"repository":{"url":"https://github.com/neresson/sveda-laravel-sdk"}}' \
+            || true
