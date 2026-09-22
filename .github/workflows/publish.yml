@@ -9,7 +9,18 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+      - run: composer install --no-interaction
+      - run: ./vendor/bin/phpunit
+
   packagist:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Notify Packagist
@@ -31,3 +42,12 @@ jobs:
             'https://packagist.org/api/update-package' \
             -d '{"repository":{"url":"https://github.com/neresson/sveda-laravel-sdk"}}' \
             || true
+
+      - name: Trigger sveda SDK compatibility matrix
+        if: ${{ secrets.SVEDA_REPO_DISPATCH_TOKEN != '' }}
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.SVEDA_REPO_DISPATCH_TOKEN }}
+          repository: neresson/sveda
+          event-type: sdk-release
+          client-payload: '{"sdk":"laravel","version":"${{ github.ref_name }}"}'
