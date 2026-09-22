@@ -158,6 +158,20 @@ The component posts to `route('sveda.session')` and renders the iframe. Override
 | `session.middleware` | `['web', 'auth']` | Use `['auth:sanctum']` for token-based APIs |
 | `session.visitor_prefix` | `host` | Default visitor id prefix |
 
+## Agent introspection
+
+Dump registered host tools as JSON (`sveda.host/v1`) — the same tool payloads MCP exposes via `tools/list`:
+
+```bash
+php artisan sveda:tools
+php artisan sveda:tools --user=agent@playground.test
+php artisan sveda:tools --table
+```
+
+Schema id: `sveda.host/v1` (fields: `sdk`, `subject`, `hooks`, `tools` with MCP `inputSchema` and `_meta`).
+
+With your app running and an authenticated session, playground apps also expose `GET /sveda/tools` for the current user.
+
 ## Troubleshooting
 
 - **Chat renders but the model never calls tools.** Check `php artisan route:list` for `mcp/sveda`; make sure `resolveToolsUsing` runs in a booted provider; describe *when* to call each tool in `description()` — the description is the model's prompt.

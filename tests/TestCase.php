@@ -24,6 +24,7 @@ abstract class TestCase extends Orchestra
     protected function defineEnvironment($app): void
     {
         $app['config']->set('database.default', 'testing');
+        $app['config']->set('cache.default', 'array');
         $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
         $app['config']->set('auth.providers.users.model', TestUser::class);
         $app['config']->set('sveda-client.base_url', 'http://127.0.0.1:8787');

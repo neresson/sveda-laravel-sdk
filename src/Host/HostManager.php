@@ -114,6 +114,34 @@ class HostManager
         return $policy === '' ? null : $policy;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function describe(?Authenticatable $user = null): array
+    {
+        return HostManifest::build($this, $user);
+    }
+
+    /**
+     * @return array{
+     *     resolve_tools: bool,
+     *     policy: bool,
+     *     authorize: bool,
+     *     visitor_id: bool,
+     *     mint_token: bool
+     * }
+     */
+    public function registeredHooks(): array
+    {
+        return [
+            'resolve_tools' => $this->resolveToolsUsing !== null,
+            'policy' => $this->policyUsing !== null,
+            'authorize' => $this->authorizeUsing !== null,
+            'visitor_id' => $this->visitorIdUsing !== null,
+            'mint_token' => $this->mintTokenUsing !== null,
+        ];
+    }
+
     public function visitorId(Authenticatable $user): string
     {
         if ($this->visitorIdUsing !== null) {

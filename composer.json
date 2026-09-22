@@ -30,7 +30,7 @@
         "illuminate/support": "^12.0 || ^13.0",
         "laravel/mcp": "^0.8.2",
         "laravel/sanctum": "^4.0",
-        "sveda-ai/php-sdk": "^0.3 || dev-main"
+        "sveda-ai/php-sdk": "^0.4"
     },
     "require-dev": {
         "laravel/framework": "^12.0 || ^13.0",

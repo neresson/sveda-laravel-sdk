@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Mcp\Facades\Mcp;
 use Sveda\LaravelClient\View\Components\Chat;
+use Sveda\LaravelClient\Console\Commands\ToolsCommand;
 use Sveda\LaravelClient\Host\HostManager;
 use Sveda\LaravelClient\Http\Controllers\StartSidecarSessionController;
 use Sveda\LaravelClient\Http\Middleware\AuthenticateHostMcp;
@@ -38,6 +39,10 @@ class SvedaClientServiceProvider extends ServiceProvider
 
         $this->registerSessionRoute();
         $this->registerMcpServer();
+
+        $this->commands([
+            ToolsCommand::class,
+        ]);
     }
 
     protected function registerSessionRoute(): void
