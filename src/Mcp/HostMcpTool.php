@@ -7,6 +7,7 @@ use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 use Sveda\LaravelClient\Contracts\HostTool;
+use Sveda\LaravelClient\Host\HostManager;
 
 class HostMcpTool extends Tool
 {
@@ -43,6 +44,17 @@ class HostMcpTool extends Tool
 
     public function handle(Request $request): Response
     {
+        $user = $request->user();
+        if ($user !== null) {
+            $allowed = array_map(
+                fn (HostTool $tool): string => $tool->name(),
+                app(HostManager::class)->resolveTools($user),
+            );
+            if (! in_array($this->hostTool->name(), $allowed, true)) {
+                return Response::error('Tool is not allowed for this user.');
+            }
+        }
+
         $result = $this->hostTool->handle($request->all());
 
         if (is_array($result)) {

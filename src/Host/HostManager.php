@@ -22,6 +22,9 @@ class HostManager
     protected $resolveToolsUsing;
 
     /** @var callable|null */
+    protected $policyUsing;
+
+    /** @var callable|null */
     protected $visitorIdUsing;
 
     /** @var callable|null */
@@ -43,6 +46,11 @@ class HostManager
     public function resolveToolsUsing(callable $callback): void
     {
         $this->resolveToolsUsing = $callback;
+    }
+
+    public function policyUsing(callable $callback): void
+    {
+        $this->policyUsing = $callback;
     }
 
     public function visitorIdUsing(callable $callback): void
@@ -74,15 +82,36 @@ class HostManager
     /**
      * @return list<HostTool>
      */
-    public function resolveTools(): array
+    /**
+     * @return list<HostTool>
+     */
+    public function resolveTools(?Authenticatable $user = null): array
     {
         if ($this->resolveToolsUsing === null) {
             return [];
         }
 
-        $tools = ($this->resolveToolsUsing)();
+        $tools = $user === null
+            ? ($this->resolveToolsUsing)()
+            : ($this->resolveToolsUsing)($user);
 
         return array_values(array_filter($tools, fn ($tool): bool => $tool instanceof HostTool));
+    }
+
+    public function policyFor(Authenticatable $user): ?string
+    {
+        if ($this->policyUsing === null) {
+            return null;
+        }
+
+        $value = ($this->policyUsing)($user);
+        if ($value === null) {
+            return null;
+        }
+
+        $policy = trim((string) $value);
+
+        return $policy === '' ? null : $policy;
     }
 
     public function visitorId(Authenticatable $user): string
@@ -141,11 +170,16 @@ class HostManager
         $visitorId = $this->visitorId($user);
 
         try {
-            $response = $this->hostClient()->embed()->createToken([
+            $payload = [
                 'visitor_id' => $visitorId,
                 'host_mcp_url' => $this->mcpUrl(),
                 'host_mcp_token' => $mcpToken,
-            ]);
+            ];
+            $policy = $this->policyFor($user);
+            if ($policy !== null) {
+                $payload['policy'] = $policy;
+            }
+            $response = $this->hostClient()->embed()->createToken($payload);
         } catch (AuthenticationException|ErrorException|TransporterException) {
             abort(502);
         }

@@ -111,7 +111,9 @@ use Sveda\LaravelClient\Facades\SvedaClient;
 
 public function boot(): void
 {
-    SvedaClient::host()->resolveToolsUsing(fn () => [
+    SvedaClient::host()->policyUsing(fn ($user) => $user->hasRole('agent') ? 'agent' : 'reader');
+
+    SvedaClient::host()->resolveToolsUsing(fn ($user) => [
         new \App\Tools\SearchPostsTool,
         new \App\Tools\CreatePostTool,
         new \App\Tools\UpdatePostTool,
@@ -119,6 +121,8 @@ public function boot(): void
 
     // Optional: who may use the AI at all (default: any authenticated user).
     SvedaClient::host()->authorizeUsing(fn ($user) => $user->is_active);
+
+    // Roles live in your app; Sveda stores named policies (admin → Policies).
 
     // Optional: customize the visitor id sent to the sidecar (default: "host-{id}").
     SvedaClient::host()->visitorIdUsing(fn ($user) => "user-{$user->id}");
