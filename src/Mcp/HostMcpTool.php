@@ -20,6 +20,9 @@ class HostMcpTool extends Tool
             'domain' => $hostTool->domain(),
             'mode' => $hostTool->mode(),
         ];
+        if (method_exists($hostTool, 'confirmation') && $hostTool->confirmation() === 'required') {
+            $this->meta['confirmation'] = 'required';
+        }
     }
 
     public function annotations(): array

@@ -2,6 +2,7 @@
 
 namespace Sveda\LaravelClient\Tests\Feature;
 
+use Sveda\LaravelClient\Contracts\HostTool;
 use Sveda\LaravelClient\Facades\SvedaClient;
 use Sveda\LaravelClient\Tests\Fixtures\EchoHostTool;
 use Sveda\LaravelClient\Tests\TestCase;
@@ -53,6 +54,7 @@ final class HostMcpServerTest extends TestCase
         $tool = collect($list->json('result.tools'))->firstWhere('name', 'echo_message');
         $this->assertSame('demo', $tool['_meta']['domain'] ?? null);
         $this->assertSame('read', $tool['_meta']['mode'] ?? null);
+        $this->assertArrayNotHasKey('confirmation', $tool['_meta']);
 
         $call = $this->mcpJson($token, 'tools/call', [
             'name' => 'echo_message',
@@ -64,6 +66,60 @@ final class HostMcpServerTest extends TestCase
         $text = (string) data_get($call->json('result.content'), '0.text');
         $decoded = json_decode($text, true);
         $this->assertSame('hello', $decoded['data']['message'] ?? null);
+    }
+
+    public function test_confirmation_meta_is_published_when_required(): void
+    {
+        SvedaClient::host()->resolveToolsUsing(fn () => [
+            new EchoHostTool,
+            new class implements HostTool
+            {
+                public function name(): string
+                {
+                    return 'delete_post';
+                }
+
+                public function description(): string
+                {
+                    return 'Delete a post.';
+                }
+
+                public function schema(\Illuminate\Contracts\JsonSchema\JsonSchema $schema): array
+                {
+                    return [
+                        'post_id' => $schema->integer()->required(),
+                    ];
+                }
+
+                public function mode(): string
+                {
+                    return self::MODE_DELETE;
+                }
+
+                public function domain(): string
+                {
+                    return 'posts';
+                }
+
+                public function confirmation(): string
+                {
+                    return 'required';
+                }
+
+                public function handle(array $arguments): mixed
+                {
+                    return ['success' => true];
+                }
+            },
+        ]);
+
+        $user = $this->createUser();
+        $token = $user->createToken('sveda-mcp', ['sveda:mcp'], now()->addHour())->plainTextToken;
+        $tools = collect($this->mcpJson($token, 'tools/list')->assertOk()->json('result.tools'))->keyBy('name');
+
+        $this->assertArrayNotHasKey('confirmation', $tools['echo_message']['_meta']);
+        $this->assertSame('required', $tools['delete_post']['_meta']['confirmation'] ?? null);
+        $this->assertSame('delete', $tools['delete_post']['_meta']['mode'] ?? null);
     }
 
     /**
