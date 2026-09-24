@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "013be2aea2d06f41eef23db4cb8b1c1e",
+    "content-hash": "9acd69424bc3e9ffd06f231733b00183",
     "packages": [
         {
             "name": "brick/math",
@@ -3255,7 +3255,7 @@
             "dist": {
                 "type": "path",
                 "url": "../sveda-php-sdk",
-                "reference": "5e0117f355717ea7a6748b274f747bbef9eb5ff6"
+                "reference": "839826b11814ef49afde2d47d78f2c4dd00c2fc4"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.9",
@@ -3266,6 +3266,9 @@
             "require-dev": {
                 "phpunit/phpunit": "^11.0 || ^12.0"
             },
+            "bin": [
+                "bin/sveda-tools"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3277,8 +3280,19 @@
                     "Sveda\\Client\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "test:contract": [
+                    "phpunit --exclude-group live"
+                ],
+                "test:live": [
+                    "phpunit --group live"
+                ]
+            },
             "license": [
-                "MIT"
+                "AGPL-3.0-only"
             ],
             "authors": [
                 {
@@ -3287,9 +3301,10 @@
                     "role": "Developer"
                 }
             ],
-            "description": "PHP SDK for the Sveda AI sidecar HTTP API (embed tokens, streaming chat, histories).",
-            "homepage": "https://github.com/neresson/sveda-php-sdk",
+            "description": "Embed a Sveda AI agent from PHP. Docs: https://sveda.dev/docs/hosts/php",
+            "homepage": "https://sveda.dev/docs/hosts/php",
             "keywords": [
+                "agent",
                 "ai",
                 "client",
                 "copilot",
@@ -3297,6 +3312,7 @@
                 "sveda"
             ],
             "support": {
+                "docs": "https://sveda.dev/docs/hosts/php",
                 "issues": "https://github.com/neresson/sveda-php-sdk/issues",
                 "source": "https://github.com/neresson/sveda-php-sdk"
             },
