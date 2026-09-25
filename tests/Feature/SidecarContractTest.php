@@ -3,7 +3,7 @@
 namespace Sveda\LaravelClient\Tests\Feature;
 
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
+use Sveda\LaravelClient\Tests\TestCase;
 
 final class SidecarContractTest extends TestCase
 {
